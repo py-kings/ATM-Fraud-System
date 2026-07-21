@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}About - SecureATM{% endblock %}
+{% block page_title %}SecureATM Platform{% endblock %}
+{% block page_subtitle %}Enterprise ATM Transaction Monitoring & Fraud Detection{% endblock %}
+
+{% block content %}
+
+<div class="panel-card text-center">
+    <div style="padding:20px 10px;">
+        <i class="bi bi-bank2" style="font-size:64px;color:#2563eb;"></i>
+        <h2 style="margin-top:15px;">SecureATM</h2>
+        <p class="about-text">
+            A secure ATM Transaction Management & Fraud Detection platform built using
+            Flask, MySQL Stored Procedures, Triggers and Functions. Business rules remain
+            inside the database while Flask acts as a lightweight presentation layer.
+        </p>
+    </div>
+</div>
+
+<div class="row g-3">
+
+<div class="col-md-3">
+<div class="panel-card text-center">
+<h3>5</h3>
+<p>Database Tables</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="panel-card text-center">
+<h3>3</h3>
+<p>Stored Procedures</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="panel-card text-center">
+<h3>2</h3>
+<p>Triggers</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="panel-card text-center">
+<h3>1</h3>
+<p>Fraud View</p>
+</div>
+</div>
+
+</div>
+
+<div class="row g-3 mt-2">
+
+<div class="col-lg-6">
+<div class="panel-card h-100">
+<div class="panel-card-header">
+<h2><i class="bi bi-stars"></i> Key Features</h2>
+</div>
+
+<ul class="list-group list-group-flush">
+<li class="list-group-item">✔ Secure Deposit</li>
+<li class="list-group-item">✔ Secure Withdrawal</li>
+<li class="list-group-item">✔ Fund Transfer</li>
+<li class="list-group-item">✔ Automatic Fraud Detection</li>
+<li class="list-group-item">✔ Risk Score Generation</li>
+<li class="list-group-item">✔ Real-Time Dashboard</li>
+<li class="list-group-item">✔ Fraud Monitoring</li>
+</ul>
+
+</div>
+</div>
+
+<div class="col-lg-6">
+<div class="panel-card h-100">
+<div class="panel-card-header">
+<h2><i class="bi bi-cpu"></i> Technology Stack</h2>
+</div>
+
+<div class="tech-grid">
+<div class="tech-chip">🐍 Python</div>
+<div class="tech-chip">🌐 Flask</div>
+<div class="tech-chip">🗄 MySQL</div>
+<div class="tech-chip">⚡ Stored Procedures</div>
+<div class="tech-chip">⚙ Triggers</div>
+<div class="tech-chip">📊 Chart.js</div>
+<div class="tech-chip">🎨 Bootstrap 5</div>
+<div class="tech-chip">💻 HTML/CSS/JS</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="panel-card mt-3">
+
+<div class="panel-card-header">
+<h2><i class="bi bi-diagram-3"></i> System Architecture</h2>
+</div>
+
+<div class="flow-diagram">
+<div class="flow-step"><i class="bi bi-person"></i><span>Customer</span></div>
+<i class="bi bi-arrow-right flow-arrow"></i>
+<div class="flow-step"><i class="bi bi-window"></i><span>Flask</span></div>
+<i class="bi bi-arrow-right flow-arrow"></i>
+<div class="flow-step"><i class="bi bi-gear-fill"></i><span>Stored Procedures</span></div>
+<i class="bi bi-arrow-right flow-arrow"></i>
+<div class="flow-step"><i class="bi bi-lightning-fill"></i><span>Triggers</span></div>
+<i class="bi bi-arrow-right flow-arrow"></i>
+<div class="flow-step"><i class="bi bi-shield-check"></i><span>Fraud Detection</span></div>
+</div>
+
+</div>
+
+<div class="panel-card">
+
+<div class="panel-card-header">
+<h2><i class="bi bi-shield-lock"></i> Security Highlights</h2>
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+<ul>
+<li>No direct balance updates from Flask</li>
+<li>Business logic handled in MySQL</li>
+<li>Stored Procedures for all transactions</li>
+<li>Database-level validation</li>
+</ul>
+</div>
+
+<div class="col-md-6">
+<ul>
+<li>Automatic fraud scoring</li>
+<li>Automatic fraud logging</li>
+<li>Risk-based transaction monitoring</li>
+<li>Audit-ready transaction history</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+<div class="panel-card text-center">
+<h3>Developed By</h3>
+<h4>Samadhan Dhake</h4>
+<p>CDAC DBDA | SecureATM Banking Mini Project</p>
+</div>
+
+{% endblock %}

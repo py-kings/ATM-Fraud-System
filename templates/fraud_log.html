@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Fraud Log - SecureATM{% endblock %}
+{% block page_title %}Fraud Log{% endblock %}
+{% block page_subtitle %}Transactions automatically flagged by the database fraud engine{% endblock %}
+
+{% block content %}
+
+<div class="row g-3 kpi-row">
+    <div class="col-6 col-xl-3">
+        <div class="kpi-card kpi-card-alert">
+            <div class="kpi-icon kpi-icon-red"><i class="bi bi-shield-exclamation"></i></div>
+            <div class="kpi-body">
+                <span class="kpi-value">{{ summary.total_alerts }}</span>
+                <span class="kpi-label">Total Alerts</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-indigo"><i class="bi bi-speedometer2"></i></div>
+            <div class="kpi-body">
+                <span class="kpi-value">{{ "%.0f"|format(summary.avg_risk_score) }}</span>
+                <span class="kpi-label">Average Risk Score</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-teal"><i class="bi bi-graph-up-arrow"></i></div>
+            <div class="kpi-body">
+                <span class="kpi-value">{{ summary.max_risk_score }}</span>
+                <span class="kpi-label">Highest Risk Score</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-blue"><i class="bi bi-person-lines-fill"></i></div>
+            <div class="kpi-body">
+                <span class="kpi-value">{{ summary.accounts_affected }}</span>
+                <span class="kpi-label">Accounts Affected</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-card table-panel">
+    <div class="panel-card-header">
+        <h2><i class="bi bi-eye"></i> Fraud_Transactions View</h2>
+        <span class="text-muted small">SELECT * FROM Fraud_Transactions</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table app-table align-middle">
+            <thead>
+                <tr>
+                    <th>Alert ID</th>
+                    <th>Customer</th>
+                    <th>Account</th>
+                    <th>ATM</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Risk Score</th>
+                    <th>Reason</th>
+                    <th>Flagged At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in fraud_records %}
+                <tr>
+                    <td>#{{ f.fraud_id }}</td>
+                    <td>
+                        {{ f.customer_name }}
+                        <div class="text-muted small">{{ f.email }}</div>
+                    </td>
+                    <td>{{ f.account_number }}</td>
+                    <td>{{ f.atm_code }}<div class="text-muted small">{{ f.atm_location }}, {{ f.atm_city }}</div></td>
+                    <td><span class="type-badge type-{{ f.transaction_type|lower }}">{{ f.transaction_type }}</span></td>
+                    <td>Rs. {{ "{:,.2f}".format(f.amount) }}</td>
+                    <td>
+                        <span class="status-badge status-flagged"><i class="bi bi-exclamation-triangle-fill"></i> {{ f.risk_score }}/100</span>
+                    </td>
+                    <td class="text-muted">{{ f.reason }}</td>
+                    <td class="text-muted">{{ f.flagged_at.strftime('%d %b %Y, %I:%M %p') }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="9" class="text-center text-muted py-4">
+                    <i class="bi bi-check2-circle"></i> No fraud alerts have been raised yet.
+                </td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

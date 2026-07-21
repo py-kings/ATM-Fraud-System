@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Transaction - SecureATM{% endblock %}
+{% block page_title %}Transaction{% endblock %}
+{% block page_subtitle %}Process a withdrawal, deposit or transfer through the ATM engine{% endblock %}
+
+{% block content %}
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="panel-card">
+            <div class="panel-card-header">
+                <h2><i class="bi bi-terminal"></i> New Transaction</h2>
+            </div>
+
+            <form method="POST" action="{{ url_for('transaction') }}" id="txnForm" class="txn-form">
+
+                <!-- Transaction type selector -->
+                <label class="form-label">Transaction Type</label>
+                <div class="type-selector mb-3">
+                    <input type="radio" class="btn-check" name="transaction_type" id="typeWithdraw" value="WITHDRAW" checked>
+                    <label class="type-option" for="typeWithdraw"><i class="bi bi-dash-circle"></i> Withdraw</label>
+
+                    <input type="radio" class="btn-check" name="transaction_type" id="typeDeposit" value="DEPOSIT">
+                    <label class="type-option" for="typeDeposit"><i class="bi bi-plus-circle"></i> Deposit</label>
+
+                    <input type="radio" class="btn-check" name="transaction_type" id="typeTransfer" value="TRANSFER">
+                    <label class="type-option" for="typeTransfer"><i class="bi bi-arrow-left-right"></i> Transfer</label>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="accountSelect">Source Account</label>
+                        <select class="form-select" id="accountSelect" name="account_id" required>
+                            <option value="" disabled selected>Select account</option>
+                            {% for acc in accounts %}
+                            <option value="{{ acc.account_id }}">{{ acc.account_number }} - {{ acc.customer_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="balance-hint" id="balanceHint">Current balance: --</div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label" for="atmSelect">ATM Terminal</label>
+                        <select class="form-select" id="atmSelect" name="atm_id" required>
+                            <option value="" disabled selected>Select ATM</option>
+                            {% for atm in atms %}
+                            <option value="{{ atm.atm_id }}">{{ atm.atm_code }} - {{ atm.location }}, {{ atm.city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6" id="targetAccountWrapper" style="display:none;">
+                        <label class="form-label" for="targetAccountSelect">Destination Account</label>
+                        <select class="form-select" id="targetAccountSelect" name="target_account_id">
+                            <option value="" disabled selected>Select destination account</option>
+                            {% for acc in accounts %}
+                            <option value="{{ acc.account_id }}">{{ acc.account_number }} - {{ acc.customer_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label" for="amountInput">Amount (Rs.)</label>
+                        <input type="number" class="form-control" id="amountInput" name="amount" min="1" step="0.01" placeholder="e.g. 5000.00" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary-solid mt-4">
+                    <i class="bi bi-send-check"></i> Submit Transaction
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="panel-card info-panel">
+            <div class="panel-card-header">
+                <h2><i class="bi bi-shield-check"></i> How this is processed</h2>
+            </div>
+            <ul class="process-steps">
+                <li>
+                    <span class="step-num">1</span>
+                    <div>
+                        <strong>Flask</strong> collects the form input and calls one stored procedure -
+                        <code>WithdrawMoney()</code>, <code>DepositMoney()</code>, or <code>TransferMoney()</code>.
+                    </div>
+                </li>
+                <li>
+                    <span class="step-num">2</span>
+                    <div>
+                        The procedure validates account status &amp; balance, then updates <code>Account</code>
+                        and inserts into <code>Transaction</code>.
+                    </div>
+                </li>
+                <li>
+                    <span class="step-num">3</span>
+                    <div>
+                        The <code>LogTransaction</code> trigger fires automatically and calls
+                        <code>CalculateRisk()</code> to score the transaction.
+                    </div>
+                </li>
+                <li>
+                    <span class="step-num">4</span>
+                    <div>
+                        If the score is <strong>&ge; 70</strong>, the <code>FraudDetection</code> trigger writes a
+                        row into <code>Fraud_Log</code> - visible immediately on the Fraud Log page.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const targetWrapper = document.getElementById('targetAccountWrapper');
+    const targetSelect = document.getElementById('targetAccountSelect');
+    const radios = document.querySelectorAll('input[name="transaction_type"]');
+
+    function toggleTransferField() {
+        const selected = document.querySelector('input[name="transaction_type"]:checked').value;
+        if (selected === 'TRANSFER') {
+            targetWrapper.style.display = 'block';
+            targetSelect.setAttribute('required', 'required');
+        } else {
+            targetWrapper.style.display = 'none';
+            targetSelect.removeAttribute('required');
+        }
+    }
+    radios.forEach(r => r.addEventListener('change', toggleTransferField));
+    toggleTransferField();
+
+    // Live balance lookup via the /api/balance/<id> endpoint (GetBalance() SQL function)
+    document.getElementById('accountSelect').addEventListener('change', function () {
+        const accId = this.value;
+        const hint = document.getElementById('balanceHint');
+        if (!accId) { hint.textContent = 'Current balance: --'; return; }
+        hint.textContent = 'Fetching balance...';
+        fetch(`/api/balance/${accId}`)
+            .then(res => res.json())
+            .then(data => {
+                hint.textContent = 'Current balance: Rs. ' + Number(data.balance).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            });
+    });
+</script>
+{% endblock %}
