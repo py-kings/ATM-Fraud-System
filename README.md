@@ -66,16 +66,41 @@ python app.py
 
 ## 📸 Screenshots
 
-About page 
-![alt text](assests/About.png)
-Dark_Mode
-![alt text](assests/dark_mode.png)
-Dashboard
-![alt text](assests/Dashboard.png)
-Tractions
-![alt text](assests/Trasction.png)
-Fraud Monitor
-![alt text](<assests/Fraud Monitor.png>)
+### About Page
+![About Page](assets/about.png)
+
+### Dashboard
+![Dashboard](assets/dashboard.png)
+
+### Dark Mode
+![Dark Mode](assets/dark_mode.png)
+
+### Transactions
+![Transactions](assets/transaction.png)
+
+### Fraud Monitor
+![Fraud Monitor](assets/fraud_monitor.png)
+
+---
+
+## ⭐ Project Highlights
+
+- Flask-based web application
+- MySQL database with Stored Procedures, Functions, Triggers & Views
+- Responsive Bootstrap UI
+- Fraud monitoring dashboard
+- GitHub Actions CI
+
+---
+
+## 🚀 Future Enhancements
+
+- Email notifications for suspicious transactions
+- OTP verification
+- Face authentication
+- AI-based fraud prediction
+- Docker deployment
+- Cloud hosting
 
 ---
 
