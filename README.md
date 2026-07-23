@@ -82,6 +82,24 @@ python app.py
 
 ---
 
+<table>
+<tr>
+<td><img src="assets/about.png" width="500"></td>
+<td><img src="assets/dashboard.png" width="500"></td>
+</tr>
+
+<tr>
+<td><img src="assets/dark_mode.png" width="500"></td>
+<td><img src="assets/transaction.png" width="500"></td>
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+<img src="assets/fraud_monitor.png" width="700">
+</td>
+</tr>
+</table>
+
 ## ⭐ Project Highlights
 
 - Flask-based web application
