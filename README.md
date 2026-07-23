@@ -66,20 +66,19 @@ python app.py
 
 ## 📸 Screenshots
 
-### About Page
-![About Page](assets/about.png)
+## 📸 Screenshots
 
-### Dashboard
-![Dashboard](assets/dashboard.png)
+| About | Dashboard |
+|--------|-----------|
+| <img src="assets/about.png" width="450"> | <img src="assets/dashboard.png" width="450"> |
 
-### Dark Mode
-![Dark Mode](assets/dark_mode.png)
+| Dark Mode | Transactions |
+|------------|--------------|
+| <img src="assets/dark_mode.png" width="450"> | <img src="assets/transaction.png" width="450"> |
 
-### Transactions
-![Transactions](assets/transaction.png)
-
-### Fraud Monitor
-![Fraud Monitor](assets/fraud_monitor.png)
+| Fraud Monitor |
+|---------------|
+| <img src="assets/fraud_monitor.png" width="450"> |
 
 ---
 
